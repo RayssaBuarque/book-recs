@@ -1,20 +1,24 @@
+import useTheme from "@/hooks/useTheme";
 // É possível consultar ícones da mesma galeria de vetores (ionicons), pelo link abaixo:
 // https://icons.expo.fyi/Index
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Tabs } from "expo-router";
 
 const TabsLayout = () => {
+
+  // Puxando o layout de cores:
+  const {colors} = useTheme();
+
   return(
     <Tabs
       screenOptions={{
-        // tabBarActiveTintColor: "#bc6c25",
         headerShown: false,
-        tabBarActiveTintColor: "#dda15e",
-        tabBarInactiveTintColor: "#fefae0",
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.textMuted,
         tabBarStyle:{
-          backgroundColor: "#606c3b",
+          backgroundColor: colors.surface,
           borderTopWidth: 1,
-          borderTopColor: "#283618",
+          borderTopColor: colors.border,
           height: 115,
           paddingBottom: 30,
           paddingTop: 10,
@@ -35,10 +39,10 @@ const TabsLayout = () => {
       /> 
 
       <Tabs.Screen 
-        name='pages/book'
+        name='book'
         options={{
-          title: "Book",
-          tabBarIcon: ({color, size}) => { return <Ionicons name="bookmarks" size={size} color={color}/>}
+          title: "Books",
+          tabBarIcon: ({color, size}) => { return <Ionicons name="bookmark" size={size} color={color}/>}
         }}
       />
 
