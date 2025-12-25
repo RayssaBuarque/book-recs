@@ -26,7 +26,7 @@ Meus objetivos com este projeto são:
 - **Expo** - Ferramentas para desenvolvimento React Native
 
 ### *Backend & Armazenamento*
-- **Notion API** - Banco de dados gratuito (plano estudante)
+- 🔗 **[Notion API](https://developers.notion.com/docs/getting-started)** - Conexão com Base de Dados (plano estudante)
 <!-- - **SQLite** - Cache local no dispositivo -->
 
 ### *Sistema de Recomendação*
