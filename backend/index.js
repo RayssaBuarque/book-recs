@@ -3,6 +3,7 @@ import { config } from "dotenv";
 import express from "express";
 
 import { get_leitura, get_multiplas_leituras } from './services/notion/get_data.js';
+import get_livro from './services/open_library/get_data.js';
 
 
 const app = express();
@@ -45,8 +46,7 @@ app.get('/api/notion/test', async(req, res) => {
 // /api/notion/reads?start_cursor=2d4bbd5b-c2b8-802d-8edb-f959c2206a6c
 app.get('/api/notion/reads', async(req, res) => {
     try {
-        // Puxando 'início' da lista do cursor
-        const startCursor = req.query.start_cursor;
+        const startCursor = req.query.start_cursor; // Puxando 'início' da lista do cursor
         
         const requestBody = {
             page_size: 16,
@@ -107,6 +107,27 @@ app.get('/api/notion/read/:ISBN', async(req, res) => {
         const treated_data = get_leitura(data, 0); 
         return res.json(treated_data)
     } catch (e){
+        res.json({message: `ERRO: ${e}`});
+    }
+})
+
+app.get('/api/openlibrary/book/:ISBN', async(req, res) => {
+    try {
+        const livro_ISBN = req.params.ISBN; // Puxando o identificador do livro do request  
+
+        const tipo = req.query.start_cursor || 'isbn'; // Puxando o tipo de busca da query
+
+        const response = await fetch(`http://openlibrary.org/api/volumes/brief/${tipo}/${livro_ISBN}.json`);
+
+        // Puxando e tratando o resultado do Notion Database
+        if (!response.ok) {
+            throw new Error(`Erro HTTP: ${response.status}`);
+        }
+        const data = await response.json();
+        const treated_data = get_livro(data);
+        return res.json(treated_data);
+    }
+    catch (e){
         res.json({message: `ERRO: ${e}`});
     }
 })
