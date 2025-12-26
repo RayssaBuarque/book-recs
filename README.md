@@ -27,6 +27,7 @@ Meus objetivos com este projeto são:
 
 ### *Backend & Armazenamento*
 - 🔗 **[Notion API](https://developers.notion.com/docs/getting-started)** - Conexão com Base de Dados (plano estudante)
+- 🔗 **[Vercel](https://vercel.com/docs)** - Hospedagem e deployment do servidor backend
 <!-- - **SQLite** - Cache local no dispositivo -->
 
 ### *Sistema de Recomendação*
