@@ -49,7 +49,13 @@ app.get('/api/notion/reads', async(req, res) => {
         const startCursor = req.query.start_cursor;
         
         const requestBody = {
-            page_size: 16
+            page_size: 16,
+            sorts: [
+                {
+                    property: "datas_conclusao",
+                    direction: "descending"
+                }
+            ]
         };
         
         if (startCursor) {
