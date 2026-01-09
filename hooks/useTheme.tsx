@@ -11,6 +11,7 @@ export interface ColorScheme {
   textMuted: string;
   border: string;
   primary: string;
+  secondary: string;
   success: string;
   warning: string;
   danger: string;
@@ -36,9 +37,10 @@ const lightColors: ColorScheme = {
   bg: "#f8fafc",
   surface: "#ffffff",
   text: "#1e293b",
-  textMuted: "#CC9C67",
+  textMuted: "#525965ff",
   border: "#F9F7EB",
   primary: "#BC6C25",
+  secondary: "#CC9C67",
   success: "#10b981",
   warning: "#f59e0b",
   danger: "#ef4444",
@@ -67,6 +69,7 @@ const darkColors: ColorScheme = {
   textMuted: "#94a3b8",
   border: "#334155",
   primary: "#60a5fa",
+  secondary: "#3b82f6",
   success: "#34d399",
   warning: "#fbbf24",
   danger: "#f87171",
