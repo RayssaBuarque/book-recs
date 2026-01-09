@@ -39,9 +39,9 @@ const TabsLayout = () => {
       /> 
 
       <Tabs.Screen 
-        name='book'
+        name='booksearch'
         options={{
-          title: "Books",
+          title: "Search",
           tabBarIcon: ({color, size}) => { return <Ionicons name="bookmark" size={size} color={color}/>}
         }}
       />
