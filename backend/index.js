@@ -18,6 +18,10 @@ app.get('/test', async(req, res) => {
     res.json({message: `Backend funcionando!`});
 })
 
+///////////////////////////////////////
+// Rotas Notion
+///////////////////////////////////////
+
 // Teste de conexão (notion db)
 app.get('/api/notion/test', async(req, res) => {
   try {
@@ -41,7 +45,6 @@ app.get('/api/notion/test', async(req, res) => {
 );
 
 // Informações sobre Múltiplas Leituras
-///////////////////////////////////////
 // Para pegar uma 'nova página', utilizar:
 // /api/notion/reads?start_cursor=2d4bbd5b-c2b8-802d-8edb-f959c2206a6c
 app.get('/api/notion/reads', async(req, res) => {
@@ -111,6 +114,10 @@ app.get('/api/notion/read/:ISBN', async(req, res) => {
     }
 })
 
+///////////////////////////////////////
+// Rotas OpenLibrary
+///////////////////////////////////////
+// Informações sobre Livro
 app.get('/api/openlibrary/book/:ISBN', async(req, res) => {
     try {
         const livro_ISBN = req.params.ISBN; // Puxando o identificador do livro do request  
@@ -126,6 +133,68 @@ app.get('/api/openlibrary/book/:ISBN', async(req, res) => {
         const data = await response.json();
         const treated_data = get_livro(data);
         return res.json(treated_data);
+    }
+    catch (e){
+        res.json({message: `ERRO: ${e}`});
+    }
+})
+
+// Pesquisar livros
+app.get('/api/openlibrary/search', async(req, res) => {
+    try {
+        const {titulo, pagina = 1} = req.query
+        const itemsPerPage = 10; // Máximo de 10 itens por página
+
+        // Validação do campo obrigatório
+        if (!titulo) {
+            return res.status(400).json({ message: "O campo 'titulo' é obrigatório no body da requisição" });
+        }
+
+        // Tratando o título para a URL:
+        const titulo_url = encodeURIComponent(titulo);
+        let fields = 'key,author_name,title,id_goodreads,isbn,subject,cover_i,edition_key,isbn'
+        // const response = await fetch(`https://openlibrary.org/search.json?q=${titulo_url}&fields=*&limit=${itemsPerPage}`);
+        const response = await fetch(`https://openlibrary.org/search.json?q=${titulo_url}&fields=${fields}&limit=${itemsPerPage}`);
+
+        // Puxando e tratando o resultado do Notion Database
+        if (!response.ok) {
+            throw new Error(`Erro HTTP: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // Processar os resultados para adicionar URLs das capas
+        const resultadosComCapa = data.docs.map(livro => {
+            let coverUrl = null;
+            
+            // Prioridade 1: Usar cover_i (ID numérico da capa)
+            if (livro.cover_i) {
+                coverUrl = `https://covers.openlibrary.org/b/id/${livro.cover_i}-L.jpg`;
+            }
+            // Prioridade 2: Usar ISBN do primeiro resultado
+            else if (livro.isbn && livro.isbn.length > 0) {
+                coverUrl = `https://covers.openlibrary.org/b/isbn/${livro.isbn[0]}-L.jpg`;
+            }
+            // Prioridade 3: Usar edition_key
+            else if (livro.edition_key && livro.edition_key.length > 0) {
+                coverUrl = `https://covers.openlibrary.org/b/olid/${livro.edition_key[0]}-L.jpg`;
+            }
+            else {
+                coverUrl = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQsySfc8vjrF2k0NXJEeR6ytsTxmigCwb8Nw&s' // Capa preta
+            }
+            
+            return {
+                ...livro,
+                cover_url: coverUrl,
+                cover_thumbnail: coverUrl ? coverUrl.replace('-L.jpg', '-M.jpg') : null,
+                cover_small: coverUrl ? coverUrl.replace('-L.jpg', '-S.jpg') : null
+            };
+        });
+
+        return res.json({
+            ...data,
+            docs: resultadosComCapa
+        });
     }
     catch (e){
         res.json({message: `ERRO: ${e}`});
