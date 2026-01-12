@@ -2,9 +2,9 @@ import cors from "cors";
 import { config } from "dotenv";
 import express from "express";
 
-import { get_leitura, get_multiplas_leituras } from './services/notion/get_data.js';
+import format_body from './services/notion/create_data.js';
+import { get_leitura, get_multiplas_leituras } from './services/notion/read_data.js';
 import get_livro from './services/open_library/get_data.js';
-
 
 const app = express();
 app.use(cors());
@@ -111,6 +111,48 @@ app.get('/api/notion/read/:ISBN', async(req, res) => {
         return res.json(treated_data)
     } catch (e){
         res.json({message: `ERRO: ${e}`});
+    }
+})
+
+// Acrescentando nova leitura na base de dados
+app.post('/api/notion/create', async(req, res) => {
+    try {
+        const leitura = req.body; // Puxando o objeto de leitura do body da requisição
+        const formatted_body = format_body(leitura); // Tratando o corpo da linha a ser acrescentada no Notion
+
+        const response = await fetch('https://api.notion.com/v1/pages', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${NOTION_KEY}`,
+                'Notion-Version': '2022-06-28',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                parent: {
+                    database_id: DATABASE_ID
+                },
+                properties: formatted_body
+            })
+        });
+
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(`Erro da API: ${data.message || response.status}`);
+        }
+        
+        return res.json({
+            success: true,
+            message: 'Leitura adicionada com sucesso!',
+            data: data
+        });
+
+    } catch (e){
+        console.error('Erro ao criar página:', e);
+        return res.status(500).json({
+            success: false,
+            message: `ERRO: ${e.message}`
+        });
     }
 })
 
