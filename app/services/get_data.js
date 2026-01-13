@@ -18,6 +18,26 @@ const get_livro_notion = async (id) => {
     }
 }
 
+// Puxando todos os livros da Database no Notion
+const get_estante_notion = async () => {
+    // Coletando a URL do servidor da API:
+    const SERVER_URL = process.env.EXPO_PUBLIC_SERVER_URL || "http://localhost:3001";
+
+    try{
+        const response = await fetch(`${SERVER_URL}/api/notion/reads`);
+        
+        if (!response.ok || !response) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+    }
+    catch(e){
+        console.log(`ERRO: ${e}`);
+    }
+}
+
 // Puxando dados da OpenLibrary
 const get_livro_openlibrary = async (isbn) => {
     // Coletando a URL do servidor da API:
@@ -65,5 +85,5 @@ const get_leitura = async (isbn) => {
     };
 }
 
-export { get_busca_openlibrary, get_leitura };
+export { get_busca_openlibrary, get_estante_notion, get_leitura };
 export default get_leitura;

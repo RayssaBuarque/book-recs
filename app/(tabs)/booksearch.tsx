@@ -1,19 +1,10 @@
 import SearchBar from '@/components/barraPesquisa';
+import LivroItem from '@/components/livroItem';
 import useTheme from "@/hooks/useTheme";
 import React, { useEffect, useState } from 'react';
-import { FlatList, Image, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import { get_busca_openlibrary } from '../services/get_data.js';
-
-// Interface dos resultados de busca de livros
-interface BookResult {
-  key: string;
-  title: string;
-  author_name?: string[];
-  cover_url?: string;
-  cover_thumbnail?: string;
-  isbn?: string[];
-  edition_key?: string[];
-}
+import { BookResult } from '../services/interfaces.js';
 
 const BookSearch = () => {
   const {colors} = useTheme(); // cores da página
@@ -133,24 +124,6 @@ const BookSearch = () => {
     };
   }
 
-  // Renderizar item da lista de resultados
-  const renderBookItem = ({ item }: { item: BookResult }) => (
-    <View style={styles.resultItem}>
-      <Image
-        source={{ uri: item.cover_thumbnail || item.cover_url || 'https://www.cranfield-colours.co.uk/wp-content/uploads/2022/01/cranfield-traditional-etching-ink-mid-black.jpg' }}
-        style={styles.resultCover}
-      />
-      <View style={styles.resultInfo}>
-        <Text style={styles.resultTitle} numberOfLines={2}>
-          {item.title}
-        </Text>
-        <Text style={styles.resultAuthor} numberOfLines={1}>
-          {item.author_name?.join(', ') || 'Autor desconhecido'}
-        </Text>
-      </View>
-    </View>
-  );
-
   if (loading) {
     return (
       <View style={styles.container}>
@@ -161,7 +134,7 @@ const BookSearch = () => {
 
   return (
      <View style={styles.container}>
-      {/* Barra de pesquisa - adicione pointerEvents */}
+      {/* Barra de pesquisa */}
       <View style={{ width: '100%' }}>
         <SearchBar
           placeholder="Pesquise por título, autor ou ISBN..."
@@ -177,7 +150,7 @@ const BookSearch = () => {
           </Text>
           <FlatList
             data={searchResults}
-            renderItem={renderBookItem}
+            renderItem={({ item }) => <LivroItem item={item} />}
             keyExtractor={(item) => item.key}
             style={styles.resultsList}
             contentContainerStyle={styles.resultsContainer}

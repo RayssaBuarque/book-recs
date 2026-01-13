@@ -31,6 +31,14 @@ const TabsLayout = () => {
     >
 
       <Tabs.Screen 
+        name='shelf'
+        options={{
+          title: "Estante",
+          tabBarIcon: ({color, size}) => { return <Ionicons name="book" size={size} color={color} />; }
+        }}
+      /> 
+
+      <Tabs.Screen 
         name='index'
         options={{
           title: "Home",
