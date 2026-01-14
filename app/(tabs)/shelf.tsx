@@ -1,11 +1,14 @@
 import LivroItem from '@/components/livroItem';
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, Text, View } from "react-native";
 import { get_estante_notion } from '../services/get_data.js';
 import { BookResult } from '../services/interfaces.js';
 import { transformar_BookResults } from '../services/utils.js';
+import templateStyles from '../styles/template_pagina';
 
 export default function Shelf() {
+
+  const page_styles = templateStyles();
 
   const [loading, setLoading] = useState(true); // Status de carregamento da página
   const [livros, setLivros] = useState<BookResult[]>([]);
@@ -45,8 +48,9 @@ export default function Shelf() {
 
   if (loading) {
     return (
-      <View style={styles.container}>
-        <Text>Carregando sua estante...</Text>
+      <View style={page_styles.container}>
+        <Text style={page_styles.titulo_pagina}>Carregando sua estante...</Text>
+        <Text style={page_styles.texto}>Aguarde o carregamento das informações.</Text>
       </View>
     );
   }
@@ -54,9 +58,10 @@ export default function Shelf() {
   // Tela de erro
   if (error) {
     return (
-      <View style={styles.container}>
-        <Text>{error}</Text>
+      <View style={page_styles.container}>
+        <Text style={page_styles.texto}>{error}</Text>
         <Text 
+           style={page_styles.danger}
           onPress={carregarEstante}
         >
           Tentar novamente
@@ -74,38 +79,31 @@ export default function Shelf() {
   // Tela principal com lista
   return (
     
-    <View>
-      <View>
-        <Text>Minha Estante</Text>
+    <View style={page_styles.container}>
+      <View style={page_styles.wrapper}>
+        <Text style={page_styles.titulo_pagina}>Minha Estante</Text>
         <Text>
           {livros.length} {livros.length === 1 ? 'livro' : 'livros'}
         </Text>
+
+        {livros.length > 0 ? (
+          <FlatList
+            data={livros}
+            renderItem={({ item }) => <LivroItem item={item} />}
+            keyExtractor={(item) => item.key}
+            showsVerticalScrollIndicator={false}
+          />
+        ) : (
+          <View>
+            <Text>Sua estante está vazia</Text>
+            <Text>
+              Adicione livros pela aba de busca!
+            </Text>
+          </View>
+        )}
       </View>
-      
-      {livros.length > 0 ? (
-        <FlatList
-          data={livros}
-          renderItem={({ item }) => <LivroItem item={item} />}
-          keyExtractor={(item) => item.key}
-          showsVerticalScrollIndicator={false}
-        />
-      ) : (
-        <View>
-          <Text>Sua estante está vazia</Text>
-          <Text>
-            Adicione livros pela aba de busca!
-          </Text>
-        </View>
-      )}
     </View>
   );
 
 }
 
-const styles = StyleSheet.create({
-  container:{
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  }
-});

@@ -1,22 +1,16 @@
 // import { Link } from "expo-router";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
+import templateStyles from "../styles/template_pagina";
 
 export default function Index() {
+  const page_styles = templateStyles();
+
   return (
     <View
-      style={styles.container}
+      style={page_styles.container}
     >
-      <Text>Olá Mundo!</Text>
+      <Text style={page_styles.texto}>Olá Mundo!</Text>
       {/* <Link href={"/pages/book"}>Ir para a página de livros</Link> */}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  // Estilos para centralizar o texto na tela
-  container:{
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  }
-});
