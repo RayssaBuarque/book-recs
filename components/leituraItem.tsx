@@ -7,10 +7,10 @@ const LeituraItem = ({ item }: { item: ShelfItem }) => {
   const { colors } = useTheme(); 
 
   // Propriedades do livro
-  const cover_url =  item.capa_url || 'https://www.cranfield-colours.co.uk/wp-content/uploads/2022/01/cranfield-traditional-etching-ink-mid-black.jpg'
-  const titulo_livro = item.titulo || 'Título desconhecido';
-  const nomes_autores = item.autor_id || 'Autor desconhecido';
-  const avaliacao = item.avaliacao || 0;
+  const cover_url =  item.capa_url;
+  const titulo_livro = item.titulo;
+  const nomes_autores = item.autor_id;
+  const avaliacao = item.avaliacao;
 
   const styles = StyleSheet.create({
     resultItem: {
@@ -63,7 +63,7 @@ const LeituraItem = ({ item }: { item: ShelfItem }) => {
         </Text>
 
         <EstrelasAvaliacao
-            avaliacao={avaliacao}
+            avaliacao={avaliacao || 0}
             cor={colors.warning}
             tamanho={18}
             ></EstrelasAvaliacao>
