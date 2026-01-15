@@ -9,4 +9,17 @@ export interface BookResult {
   edition_key?: string[];
 }
 
+export interface ShelfItem {
+  key: string;
+  titulo: string;
+  autor_id: string;
+  datas_conclusao?: string;
+  status_leitura: string;
+  avaliacao?: number;
+  resenha?: string;
+  formato: string;
+  idioma: string;
+  capa_url?: string;
+}
+
 export default {};
