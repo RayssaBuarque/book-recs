@@ -1,7 +1,7 @@
 import LeituraItem from '@/components/leituraItem';
 import React, { useEffect, useState } from 'react';
 import { FlatList, Text, View } from "react-native";
-import { get_estante_notion } from '../services/get_data.js';
+import { get_estante } from '../services/get_data.js';
 import { ShelfItem } from '../services/interfaces';
 import { transformar_ShelfItem } from '../services/utils.js';
 import templateStyles from '../styles/template_pagina';
@@ -11,7 +11,6 @@ export default function Shelf() {
   const page_styles = templateStyles();
 
   const [loading, setLoading] = useState(true); // Status de carregamento da página
-  // const [livros, setLivros] = useState<BookResult[]>([]);
   const [livros, setLivros] = useState<ShelfItem[]>([]);
   const [error, setError] = useState<string | null>(null);
 
@@ -20,14 +19,12 @@ export default function Shelf() {
       setLoading(true);
       setError(null);
       
-      const dados = await get_estante_notion();
+      const dados = await get_estante();
 
       // Salvando retorno das leituras da estante do Notion
       if (Array.isArray(dados)) {
         const livrosTransformados = dados.map(item => transformar_ShelfItem(item, {}));
         setLivros(livrosTransformados);
-      } else if (dados?.results || dados?.docs) {
-        setLivros(dados.results || dados.docs);
       } else {
         console.warn("Estrutura de dados inesperada:", dados);
         setLivros([]);
@@ -60,13 +57,13 @@ export default function Shelf() {
   if (error) {
     return (
       <View style={page_styles.container}>
-        <Text style={page_styles.texto}>{error}</Text>
         <Text 
          style={page_styles.danger}
          onPress={carregarEstante}
         >
           Tentar novamente
         </Text>
+        <Text style={page_styles.texto}>{error}</Text>
       </View>
     );
   }
@@ -102,7 +99,6 @@ export default function Shelf() {
             />
           ) : (
             <View>
-              <Text style={page_styles.titulo_pagina}>Minha Estante</Text>
               <Text style={page_styles.texto}>
                 Estante vazia, adicione livros pela aba de busca!
               </Text>
