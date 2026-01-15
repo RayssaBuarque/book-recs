@@ -20,7 +20,6 @@ const templateStyles = () => {
       titulo_pagina: {
         fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: 20,
         color: colors.primary
       },
 
