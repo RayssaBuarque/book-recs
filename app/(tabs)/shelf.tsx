@@ -1,7 +1,7 @@
 import LeituraItem from '@/components/leituraItem';
 import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Button, FlatList, Text, View } from "react-native";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { get_estante } from '../services/get_data.js';
 import { ShelfItem } from '../services/interfaces';
 import { transformar_ShelfItem } from '../services/utils.js';
@@ -78,11 +78,13 @@ export default function Shelf() {
           {livros.length} {livros.length === 1 ? 'livro' : 'livros'}
         </Text>
 
-        <Button
-          title="+"
+        <TouchableOpacity
+          style={page_styles.button}
           accessibilityLabel="Registrar Nova Leitura"
           onPress={() => router.push('/pages/readSearch')}
-        /> 
+        > 
+          <Text style={page_styles.texto_button}>Registrar Nova Leitura</Text>
+        </TouchableOpacity>
 
         {/* Conjunto de thumbnails dos livros da estante: */}
         <View style={{paddingBottom: 100, marginTop: 30}}>

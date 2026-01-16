@@ -32,6 +32,20 @@ const templateStyles = () => {
         color: colors.danger,
         fontWeight: 'bold',
         fontSize: 22,
+      },
+
+      button: {
+        margin: 20,
+        backgroundColor: colors.secondary,
+        padding: 9,
+        borderRadius: 3.5,
+      },
+
+      texto_button:{
+        color: colors.bg,
+        fontSize: 16,
+        textAlign: 'center',
+        fontWeight: 'medium',
       }
     });
     
