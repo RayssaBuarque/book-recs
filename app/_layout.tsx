@@ -17,12 +17,6 @@ export default function RootLayout() {
       {/* Telas extras */}
       <Stack.Screen 
         name="pages/readSearch" 
-        options={{ 
-          title: 'Pesquisar Leitura',
-          headerShown: true,
-          headerBackTitle: 'Voltar',
-
-        }} 
       />
 
     </Stack>
