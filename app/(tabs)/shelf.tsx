@@ -1,6 +1,7 @@
 import LeituraItem from '@/components/leituraItem';
+import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { FlatList, Text, View } from "react-native";
+import { Button, FlatList, Text, View } from "react-native";
 import { get_estante } from '../services/get_data.js';
 import { ShelfItem } from '../services/interfaces';
 import { transformar_ShelfItem } from '../services/utils.js';
@@ -68,12 +69,6 @@ export default function Shelf() {
     );
   }
 
-/* <Button
-  //       // onPress={onPressLearnMore}
-  //       title="+"
-  //       accessibilityLabel="Registrar Nova Leitura"
-  //     /> */
-
   // Tela principal com lista
   return (
     <View style={page_styles.container}>
@@ -82,6 +77,12 @@ export default function Shelf() {
         <Text style={page_styles.texto}>
           {livros.length} {livros.length === 1 ? 'livro' : 'livros'}
         </Text>
+
+        <Button
+          title="+"
+          accessibilityLabel="Registrar Nova Leitura"
+          onPress={() => router.push('/pages/readSearch')}
+        /> 
 
         {/* Conjunto de thumbnails dos livros da estante: */}
         <View style={{paddingBottom: 100, marginTop: 30}}>
