@@ -34,6 +34,7 @@ const get_leitura = (data, multiplo) => {
         resenha: props.resenha?.rich_text?.[0]?.plain_text || null,
         formato: props.formato?.select?.name || null,
         idioma: props.idioma?.rich_text?.[0]?.plain_text || null,
+        alt_cover: props.alt_cover?.rich_text?.[0]?.plain_text || null,
     }
 
     return objeto_leitura
