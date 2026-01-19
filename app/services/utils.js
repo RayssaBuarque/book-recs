@@ -42,7 +42,7 @@ const transformar_ShelfItem = (notion) => {
     resenha: notion.resenha,
     formato: notion.formato,
     idioma: notion.idioma,
-    capa_url: notion.capa_url,
+    capa_url: notion.capa_url || `https://covers.openlibrary.org/b/isbn/${notion.ISBN}-S.jpg`
   });
 }
 

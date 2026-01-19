@@ -147,8 +147,7 @@ const get_estante = async () => {
                         capa_url: 
                             livro_notion.alt_cover ||
                             dados_openlibrary?.cover_thumbnail || 
-                            dados_openlibrary?.cover_url ||
-                            'https://www.cranfield-colours.co.uk/wp-content/uploads/2022/01/cranfield-traditional-etching-ink-mid-black.jpg'
+                            dados_openlibrary?.cover_url
                     };
                 } catch (error) {
                     console.error(`Erro ao processar livro ISBN ${livro_notion.ISBN}:`, error);
