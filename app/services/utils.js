@@ -27,14 +27,14 @@ const transformar_BookResults = (notion, openLibrary = {}) => {
 }
 
 // TRANSFORMA DADOS DE UM LIVRO EM UM OBJETO >SHELFITEM<
-const transformar_ShelfItem = (notion, openLibrary = {}) => {
+const transformar_ShelfItem = (notion) => {
 
   // Formatando o nome dos autores
   const nome_autor_formatado = notion.autor_id.map(formatarNomeAutor);
 
   return ({
     key: notion.ISBN,
-    titulo: notion.titulo || openLibrary.title,
+    titulo: notion.titulo,
     autor_id: nome_autor_formatado,
     datas_conclusao: notion.datas_conclusao,
     status_leitura: notion.status_leitura,
@@ -42,7 +42,7 @@ const transformar_ShelfItem = (notion, openLibrary = {}) => {
     resenha: notion.resenha,
     formato: notion.formato,
     idioma: notion.idioma,
-    capa_url: openLibrary.cover_url,
+    capa_url: notion.capa_url,
   });
 }
 

@@ -24,7 +24,7 @@ export default function Shelf() {
 
       // Salvando retorno das leituras da estante do Notion
       if (Array.isArray(dados)) {
-        const livrosTransformados = dados.map(item => transformar_ShelfItem(item, {}));
+        const livrosTransformados = dados.map(item => transformar_ShelfItem(item));
         setLivros(livrosTransformados);
       } else {
         console.warn("Estrutura de dados inesperada:", dados);
