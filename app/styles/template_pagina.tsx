@@ -61,7 +61,7 @@ const buscaStyles = () => {
         backgroundColor: colors.bg,
         paddingTop: 50,
         paddingLeft: 30,
-        paddingRight: 30,
+        paddingRight: 20,
         height: '100%',
       },
     

@@ -48,20 +48,59 @@ const SearchBar: React.FC<SearchBarProps> = ({
         }
     };
 
+    const styles = StyleSheet.create({
+        container: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            backgroundColor: colors.surface,
+            borderRadius: 25,
+            paddingHorizontal: 15,
+            height: 50,
+            borderWidth: 1,
+            borderColor: colors.textMuted,
+        },
+        containerFocused: {
+            borderColor: colors.primary,
+            backgroundColor: colors.surface,
+            shadowColor: colors.primary,
+            shadowOffset: { width: 0, height: 0 },
+            shadowOpacity: 0.1,
+            shadowRadius: 4,
+            elevation: 3,
+        },
+        searchIcon: {
+            marginRight: 10,
+        },
+        input: {
+            flex: 1,
+            fontSize: 16,
+            color: colors.text,
+            height: '100%',
+            paddingVertical: Platform.OS === 'ios' ? 10 : 0,
+        },
+        clearButton: {
+            padding: 5,
+            marginRight: 5,
+        },
+        searchButton: {
+            padding: 5,
+        },
+    });
+
     return (
         <View style={[styles.container, isFocused && styles.containerFocused]}>
         <View style={styles.searchIcon}>
             <Ionicons 
             name="search" 
             size={20} 
-            color={isFocused ? '#6200ee' : '#666'} 
+            color={isFocused ? colors.primary : colors.textMuted} 
             />
         </View>
       
         <TextInput
             style={styles.input}
             placeholder={placeholder}
-            placeholderTextColor="#999"
+            placeholderTextColor={colors.textMuted}
             value={query}
             onChangeText={handleChangeText}
             onSubmitEditing={handleSearch}
@@ -77,7 +116,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
             style={styles.clearButton} 
             onPress={handleClear}
             >
-            <Ionicons name="close-circle" size={20} color="#999" />
+            <Ionicons name="close-circle" size={20} color={colors.secondary} />
             </TouchableOpacity>
         )}
         
@@ -86,52 +125,11 @@ const SearchBar: React.FC<SearchBarProps> = ({
             style={styles.searchButton} 
             onPress={handleSearch}
             >
-            <Ionicons name="arrow-forward" size={20} color="#6200ee" />
+            <Ionicons name="arrow-forward" size={20} color={colors.primary} />
             </TouchableOpacity>
         )}
         </View>
     );
     };
-
-    const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#ffff',
-        borderRadius: 25,
-        paddingHorizontal: 15,
-        marginHorizontal: 20,
-        marginVertical: 10,
-        height: 50,
-        borderWidth: 1,
-        borderColor: '#e0e0e0',
-    },
-    containerFocused: {
-        borderColor: '#6200ee',
-        backgroundColor: '#fff',
-        shadowColor: '#6200ee',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 3,
-    },
-    searchIcon: {
-        marginRight: 10,
-    },
-    input: {
-        flex: 1,
-        fontSize: 16,
-        color: '#333',
-        height: '100%',
-        paddingVertical: Platform.OS === 'ios' ? 10 : 0,
-    },
-    clearButton: {
-        padding: 5,
-        marginRight: 5,
-    },
-    searchButton: {
-        padding: 5,
-    },
-});
 
 export default SearchBar;
