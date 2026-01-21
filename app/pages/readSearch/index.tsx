@@ -1,9 +1,10 @@
 import { get_busca_openlibrary } from '@/app/services/get_data';
 import { BookResult } from '@/app/services/interfaces';
 import SearchBar from '@/components/barraPesquisa';
-import { Stack } from 'expo-router';
+import LivroItem from '@/components/livroItem';
+import { Stack, router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { buscaStyles } from '../../styles/template_pagina';
 
 export default function readSearch() {
@@ -20,7 +21,7 @@ export default function readSearch() {
   }, []);
 
 
-  // Função para buscar na API
+  // Função de busca de livros via OpenLibrary
   const handleSearch = async (query: string) => {
     if (!query.trim()) {
       setSearchResults([]);
@@ -60,8 +61,6 @@ export default function readSearch() {
         headerTitle: '',
         headerBackTitle: 'Voltar',
         headerTintColor: '#CC9C67',
-        // Ou para iOS especificamente:
-        // headerBackTitleVisible: false,
       }}
     />
 
@@ -73,6 +72,54 @@ export default function readSearch() {
           onSearch={handleSearch}
         />
       </View>
+
+      {/* Exibir resultados da busca ou livro padrão */}
+      {searchResults.length > 0 ? (
+        
+        <>
+        <Text style={busca_styles.search_inform}>Resultados para "{searchQuery}" ({searchResults.length})</Text>
+
+        <FlatList
+          data={searchResults}
+          renderItem={({ item }) => <> 
+            <TouchableOpacity
+              accessibilityLabel="Selecionar Leitura"
+              onPress={() => router.push({
+              pathname: '/pages/livroInfo',
+              params: { livro: JSON.stringify(item) } // Passa o item completo
+            })}>
+              <LivroItem item={item} />
+            </TouchableOpacity>
+          </>}
+          keyExtractor={(item) => item.key}
+          keyboardShouldPersistTaps="always"
+        />
+        </>
+      
+      ) : searchQuery && !searchLoading ? (
+
+        // Tela de "nenhum resultado encontrado"
+        <View>
+          <Text style={busca_styles.search_inform}>Nenhum resultado encontrado para "{searchQuery}"
+          </Text>
+        </View>
+
+      ) : searchLoading ? (
+
+        // Tela de carregamento da busca
+        <View>
+          <Text style={busca_styles.search_inform}>Buscando...</Text>
+        </View>
+
+      ) : (
+        
+        // Tela inicial quando nenhum livro é pesquisado
+        <View>
+          <Text style={busca_styles.search_inform}>Pesquise um livro para começar!</Text>
+        </View>
+
+      )}
+
     </View>
   </>
   );

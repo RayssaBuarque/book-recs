@@ -52,6 +52,62 @@ const templateStyles = () => {
     return page_styles;
 }
 
+// Template de tela de Livro
+const templateLivro = () => {
+    const { colors } = useTheme(); 
+    
+    const page_styles = StyleSheet.create({
+      container:{
+        backgroundColor: colors.bg,
+        flex: 1,
+      },
+      
+      contentContainer:{
+        alignItems: 'center',
+        paddingTop: 40,
+        paddingLeft: 30,
+        paddingRight: 30,
+      },
+    
+      wrapper:{
+        backgroundColor: colors.bg,
+      },
+    
+      titulo: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: colors.primary
+      },
+
+      capa: {
+        height: 350,
+        width: 230,
+        borderRadius: 10,
+        resizeMode: 'cover',
+        marginTop: 20,
+        marginBottom: 20,
+      },
+
+      lista_autores: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        gap: 10,
+        marginBottom: 15,
+      },
+      
+      autor: {
+        textAlign: 'center',
+        color: 'white',
+        backgroundColor: colors.secondary,
+        padding: 5,
+        borderRadius: 5,
+      }
+
+    });
+    
+    return page_styles;
+}
+
 // Template de tela de busca
 const buscaStyles = () => {
   const { colors } = useTheme(); 
@@ -79,6 +135,11 @@ const buscaStyles = () => {
         color: colors.text,
       },
 
+      search_inform:{
+        color: colors.textMuted,
+        marginTop: 10,
+      },
+
       danger: {
         color: colors.danger,
         fontWeight: 'bold',
@@ -89,5 +150,5 @@ const buscaStyles = () => {
     return busca_styles;
 } 
 
-export { buscaStyles, templateStyles };
+export { buscaStyles, templateLivro, templateStyles };
 export default templateStyles;
