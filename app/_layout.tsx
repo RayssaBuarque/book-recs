@@ -18,6 +18,14 @@ export default function RootLayout() {
       <Stack.Screen 
         name="pages/readSearch" 
       />
+      
+      <Stack.Screen 
+        name="pages/livroInfo" 
+      />
+
+      <Stack.Screen 
+        name="pages/saveLeitura" 
+      />
 
     </Stack>
   </ThemeProvider>

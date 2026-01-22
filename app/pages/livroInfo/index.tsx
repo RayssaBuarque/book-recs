@@ -1,14 +1,15 @@
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Image, ScrollView, Text, View } from 'react-native';
-import { templateLivro } from '../../styles/template_pagina';
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { templateLivro, templateStyles } from '../../styles/template_pagina';
 
 export default function livroInfo() {
+  const livro_styles = templateLivro();
+  const page_styles = templateStyles();
 
   // Parâmetros do livro, recebidos via navegação
   const params = useLocalSearchParams();
 
-  const livro_styles = templateLivro();
   const [loading, setLoading] = useState(true); // Status de carregamento da página
   
   // Informações do Livro
@@ -25,6 +26,7 @@ export default function livroInfo() {
     if (params.livro) {
       try {
         const livroData = JSON.parse(params.livro);
+
         setTitulo(livroData.title || 'Título do Livro');
         setAutores(livroData.author_name || ['Autores do Livro']);
         setGeneros(livroData.subject || ['Gêneros do Livro']);
@@ -77,22 +79,32 @@ export default function livroInfo() {
               </View>
             )}
 
+            <TouchableOpacity
+              style={page_styles.button}
+              accessibilityLabel="Selecionar Leitura"
+              onPress={() => router.push({
+              pathname: '/pages/saveLeitura',
+              params: { livro: JSON.stringify(livro) } // Passa o item completo
+            })}>
+              <Text style={page_styles.texto_button}>Registrar Nova Leitura</Text>
+            </TouchableOpacity>
+
             {/* Lista de Gêneros Literários */}
             {generos && generos.length > 0 && (
               <View>
                 <Text>Gêneros:</Text>
                 {generos.map((genero, index) => (
                   <Text key={index}>
-                    • {genero}
+                    {genero}
                   </Text>
                 ))}
               </View>
             )}
-
+        
           </>
-        ) : (
-          <Text>Não foi possível carregar os dados do livro.</Text>
-        )}
+      ) : (
+        <Text>Não foi possível carregar os dados do livro.</Text>
+      )}
 
     </ScrollView>
   </>

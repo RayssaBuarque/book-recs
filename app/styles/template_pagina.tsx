@@ -65,6 +65,7 @@ const templateLivro = () => {
       contentContainer:{
         alignItems: 'center',
         paddingTop: 40,
+        paddingBottom: 75,
         paddingLeft: 30,
         paddingRight: 30,
       },
@@ -102,6 +103,96 @@ const templateLivro = () => {
         padding: 5,
         borderRadius: 5,
       }
+
+    });
+    
+    return page_styles;
+}
+
+// Template de tela de Leitura
+const templateLeitura = () => {
+    const { colors } = useTheme(); 
+    
+    const page_styles = StyleSheet.create({
+      container:{
+        backgroundColor: colors.bg,
+        flex: 1,
+      },
+      
+      contentContainer:{
+        alignItems: 'center',
+        paddingTop: 40,
+        paddingBottom: 75,
+        paddingLeft: 30,
+        paddingRight: 30,
+      },
+    
+      wrapper:{
+        backgroundColor: colors.bg,
+      },
+    
+      titulo: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: colors.primary
+      },
+
+      general_info:{
+        flexDirection: 'column',
+        gap: 25,
+      },
+
+      caixa_resenha: {
+        backgroundColor: colors.surface,
+        borderBlockColor: colors.textMuted,
+        borderWidth: 1,
+        borderRadius: 10,
+        width: 350,
+        minHeight: 175,
+        padding: 10,
+        textAlignVertical: 'top'
+      },
+
+      multipla_escolha: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        gap: 10,
+        marginTop: 10,
+      },
+
+      botaoOpcao: {
+        backgroundColor: colors.surface,
+        paddingVertical: 10,
+        width: 110,
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: '#ddd',
+      },
+
+      botaoSelecionado: {
+        backgroundColor: colors.secondary,
+        borderColor: colors.primary,
+      },
+
+      textoOpcao: {
+        fontSize: 16,
+        textAlign: 'center',
+      },
+
+      textoSelecionado: {
+        color: 'white',
+        fontWeight: 'bold',
+      },
+
+      caixa_estrelas: {
+        // flexDirection: 'column',
+        // alignItems: 'center',
+        // marginBottom: 35,
+      },
+
+      estrelas: {
+        backgroundColor: colors.secondary,
+      },
 
     });
     
@@ -150,5 +241,5 @@ const buscaStyles = () => {
     return busca_styles;
 } 
 
-export { buscaStyles, templateLivro, templateStyles };
+export { buscaStyles, templateLeitura, templateLivro, templateStyles };
 export default templateStyles;
