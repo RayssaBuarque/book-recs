@@ -131,6 +131,7 @@ export default function saveLeitura() {
                         avaliacao={avaliacao || 0}
                         cor={livro_styles.estrelas.backgroundColor}
                         tamanho={35}
+                        touch={true}
                         ></EstrelasAvaliacao>
                 </View>
 
