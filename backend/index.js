@@ -156,6 +156,48 @@ app.post('/api/notion/create', async(req, res) => {
     }
 })
 
+// Conferindo se uma leitura já foi adicionada antes, retorna dados dessa leitura:
+app.post('/api/notion/check', async(req, res) => {
+    try{
+        const { ISBN } = req.body;
+
+        // Faz a requisição para a API do Notion
+        const response = await fetch( 'https://api.notion.com/v1/search',
+        {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${NOTION_KEY}`,
+                'Content-Type': 'application/json',
+                'Notion-Version': '2022-06-28'
+            },
+            body: JSON.stringify({
+                query: ISBN, // ISBN do livro procurado
+                filter: {
+                    property: 'object',
+                    value: 'page'
+                },
+                sort: {
+                    direction: 'descending',
+                    timestamp: 'last_edited_time'
+                },
+                page_size: 3 // Limite de resultados
+            })
+        });
+
+        // Puxando e tratando o resultado do Notion Database
+        const data = await response.json();
+        const treated_data = get_leitura(data, 0); 
+        return res.json(treated_data)
+
+    } catch (e){
+        console.log(`Erro identificado: ${e}`)
+        return res.status(500).json({
+            success: false,
+            message: `ERRO: ${e}`
+        })
+    }
+})
+
 ///////////////////////////////////////
 // Rotas OpenLibrary
 ///////////////////////////////////////
